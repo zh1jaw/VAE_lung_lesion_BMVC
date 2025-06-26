@@ -131,7 +131,7 @@ class DIR_VAE(nn.Module):
             return annealed
 
         if self.annealing == 1:
-            C = (linear_annealing(0, 1, epoch, 100))
+            C = (linear_annealing(0, 1, epoch, 1))
         if self.annealing == 0:
             C = 0
             
