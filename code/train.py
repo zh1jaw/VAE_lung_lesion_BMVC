@@ -202,9 +202,9 @@ if __name__ == "__main__":
         for arg in vars(args):
             fp.write(f"{arg}: {getattr(args, arg)}\n")
     train_images = [x for x in glob.glob("./train/images/*.npy")]
-    train_images = LoadImages(main_dir="", files_list=train_images, HU_Upper=500, HU_Lower=-1000)
+    train_images = LoadImages(main_dir="", files_list=train_images, HU_Upper=args.HU_high, HU_Lower=args.HU_low)
     valid_images = [x for x in glob.glob("./valid/images/*.npy")]
-    valid_images = LoadImages(main_dir="", files_list=valid_images, HU_Upper=500, HU_Lower=-1000)
+    valid_images = LoadImages(main_dir="", files_list=valid_images, HU_Upper=args.HU_high, HU_Lower=args.HU_low)
     train_loader = DataLoader(train_images, args.batch_size, shuffle=True)
     valid_loader = DataLoader(valid_images, args.batch_size, shuffle=False)
     device = "cuda"
