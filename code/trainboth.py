@@ -131,7 +131,7 @@ def trainMLPModel(model, vaemodel, device, train_loader, test_loader, args, Resu
     model.to(device)
     vaemodel.to(device)
     vaemodel.eval()
-    lossFn = nn.BCELoss()
+    lossFn = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), args.lr)
     es = EarlyStopping(patience=100, verbose=False, delta=0, path=os.path.join(ResultFolder, 'best.pt'))
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=20, threshold=0.001, threshold_mode='abs')
@@ -164,7 +164,7 @@ def trainVaewithMlpFrz(mlpmodel, vaemodel, device, train_loader, test_loader, Re
     optimiser = optim.AdamW(vaemodel.parameters(), lr=args.lr, weight_decay=1e-5) #, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimiser, mode='min', factor=0.5, patience=20, 
                                                            threshold=0.001, threshold_mode='abs')
-    lossFn = nn.BCEWithLogitsLoss(pos_weight = torch.tensor([5256./3450.]).to(device))
+    lossFn = nn.BCEWithLogitsLoss()
 
     counter = 0
     es = EarlyStopping(patience=200, verbose=False, delta=0, path=os.path.join(ResultFolder, 'best.pt'))
@@ -200,7 +200,7 @@ def trainVaewithMlp(mlpmodel, vaemodel, device, train_loader, test_loader, Resul
     optimiser = optim.AdamW(list(vaemodel.parameters()) + list(mlpmodel.parameters()), lr=args.lr, weight_decay=1e-5) #, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimiser, mode='min', factor=0.5, patience=20, 
                                                            threshold=0.001, threshold_mode='abs')
-    lossFn = nn.BCEWithLogitsLoss(pos_weight = torch.tensor([5256./3450.]).to(device))
+    lossFn = nn.BCEWithLogitsLoss()
 
     counter = 0
     es = EarlyStopping(patience=200, verbose=False, delta=0, path=os.path.join(ResultFolder, 'best.pt'))
