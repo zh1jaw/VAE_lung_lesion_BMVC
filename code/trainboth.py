@@ -469,18 +469,22 @@ if __name__ == "__main__":
 
     ## Data loader ##       
     csv_file = pd.read_csv('./test.csv')
-    train_datalist = csv_file[csv_file['data_split'] == 'train']
-    train_label = (train_datalist.iloc[:,5]).tolist()
-    train_datalist = (train_datalist.iloc[:,3]).tolist()
-    val_datalist = csv_file[csv_file['data_split'] == 'valid']
-    val_label = (val_datalist.iloc[:,5]).tolist()
-    val_datalist = (val_datalist.iloc[:,3]).tolist()
+    train_datalist = csv_file[csv_file['data_split'] == 'Train']
+    train_label = (train_datalist.iloc[:,8]).tolist()
+    train_datalist = (train_datalist.iloc[:,5]).tolist()
+    val_datalist = csv_file[csv_file['data_split'] == 'Validation']
+    val_label = (val_datalist.iloc[:,8]).tolist()
+    val_datalist = (val_datalist.iloc[:,5]).tolist()
+    train_label = list(map(int, train_label))
+    val_label = list(map(int, val_label))
+    test_label = list(map(int, test_label))
+
     if not args.Startover:
-        train_images = LoadImages(main_dir="./train/images/", files_list=[train_datalist, train_label], HU_Upper=vaeargs['HU_high'], HU_Lower=vaeargs['HU_low'])
-        valid_images = LoadImages(main_dir="./valid/images/", files_list=[val_datalist, val_label], HU_Upper=vaeargs['HU_high'], HU_Lower=vaeargs['HU_low'])
+        train_images = LoadImages(main_dir="../images/", files_list=[train_datalist, train_label], HU_Upper=vaeargs['HU_high'], HU_Lower=vaeargs['HU_low'])
+        valid_images = LoadImages(main_dir="../images/", files_list=[val_datalist, val_label], HU_Upper=vaeargs['HU_high'], HU_Lower=vaeargs['HU_low'])
     else:
-        train_images = LoadImages(main_dir="./train/images/", files_list=[train_datalist, train_label], HU_Upper=args.HU_high, HU_Lower=args.HU_low)
-        valid_images = LoadImages(main_dir="./valid/images/", files_list=[val_datalist, val_label], HU_Upper=args.HU_high, HU_Lower=args.HU_low)
+        train_images = LoadImages(main_dir="../images/", files_list=[train_datalist, train_label], HU_Upper=args.HU_high, HU_Lower=args.HU_low)
+        valid_images = LoadImages(main_dir="../images/", files_list=[val_datalist, val_label], HU_Upper=args.HU_high, HU_Lower=args.HU_low)
 
     train_loader = DataLoader(train_images, args.batch_size, shuffle=True)
     valid_loader = DataLoader(valid_images, args.batch_size, shuffle=False)
