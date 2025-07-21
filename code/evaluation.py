@@ -108,7 +108,7 @@ def visualize_features_tsne(aemodel, loader, device):
         plt.ylabel('t-SNE Dimension 2')
         plt.legend(handles=scatter.legend_elements()[0], labels=['Benign (0)', 'Malignant (1)'])
         plt.grid(True)
-        plt.savefig(f"mal_nonmal_{p}tsne_feature_visualization.png")
+        plt.savefig(f"mal_ben_perplexity{p}tsne_feature_visualization.png")
         print("t-SNE plot saved as tsne_feature_visualization.png")
 
 def visualize_performance(history_file_path):
@@ -258,7 +258,7 @@ if __name__ == '__main__':
     print(len(test_label))
 
 
-    test_images = LoadImages(main_dir="../Images/", files_list=[test_datalist, test_label], HU_Upper=600, HU_Lower=-1000)
+    test_images = LoadImages(main_dir="../Images/", files_list=[test_datalist, test_label], HU_Upper=args.HU_high, HU_Lower=args.HU_low)
     test_loader = DataLoader(test_images, 128, shuffle=False)
     test(mlpmodel, FeatureExtracter, device, test_loader,testlossFn,1, True)
     
